@@ -1,0 +1,376 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary);background:transparent}
+.report{max-width:680px;margin:0 auto;padding:1.5rem 0}
+.cover{padding:2rem 0 2.5rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:2rem}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.75rem}
+.cover h1{font-size:22px;font-weight:500;line-height:1.35;margin-bottom:.5rem}
+.cover .sub{font-size:15px;color:var(--color-text-secondary);margin-bottom:1.25rem;line-height:1.6}
+.meta-row{display:flex;gap:1.5rem;flex-wrap:wrap}
+.meta-pill{font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:5px}
+.meta-pill i{font-size:15px;color:var(--color-text-tertiary)}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.nav-btn{font-size:13px;padding:6px 14px;border-radius:999px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.nav-btn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.section{display:none}
+.section.active{display:block}
+.part-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-tertiary);margin-bottom:.5rem}
+.part-title{font-size:18px;font-weight:500;margin-bottom:.5rem}
+.part-intro{font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.75rem}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1rem}
+.card-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-tertiary);margin-bottom:.4rem}
+.card h3{font-size:15px;font-weight:500;margin-bottom:.5rem}
+.card p{font-size:13px;color:var(--color-text-secondary);line-height:1.65}
+.tag{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:999px;margin-bottom:.6rem}
+.tag-process{background:#E6F1FB;color:#0C447C}
+.tag-people{background:#EEEDFE;color:#3C3489}
+.tag-system{background:#EAF3DE;color:#27500A}
+.tag-gov{background:#FAEEDA;color:#633806}
+.impact-row{display:flex;gap:6px;align-items:flex-start;margin-top:.6rem}
+.impact-dot{width:6px;height:6px;border-radius:50%;background:#E24B4A;margin-top:5px;flex-shrink:0}
+.impact-text{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.phase-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.phase-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.85rem 1rem;border:0.5px solid var(--color-border-tertiary)}
+.phase-num{font-size:11px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:4px}
+.phase-name{font-size:13px;font-weight:500;margin-bottom:4px}
+.phase-timing{font-size:11px;color:var(--color-text-tertiary)}
+.phase-accent{width:3px;height:100%;border-radius:2px}
+.stakeholder-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+@media(max-width:500px){.stakeholder-grid{grid-template-columns:1fr}}
+.sk-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem}
+.sk-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:.6rem}
+.sk-icon i{font-size:18px}
+.sk-role{font-size:11px;color:var(--color-text-tertiary);margin-bottom:3px}
+.sk-name{font-size:14px;font-weight:500;margin-bottom:.4rem}
+.sk-risk{font-size:11px;padding:2px 8px;border-radius:999px;display:inline-block;margin-bottom:.4rem}
+.sk-risk-high{background:#FCEBEB;color:#A32D2D}
+.sk-risk-med{background:#FAEEDA;color:#633806}
+.sk-risk-low{background:#EAF3DE;color:#27500A}
+.sk-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.55}
+.sla-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:1.25rem}
+.sla-table th{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-tertiary);padding:8px 10px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+.sla-table td{padding:9px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);vertical-align:top}
+.sla-table tr:last-child td{border-bottom:none}
+.p1{background:#FCEBEB;color:#A32D2D;font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;display:inline-block}
+.p2{background:#FAEEDA;color:#633806;font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;display:inline-block}
+.p3{background:#EEEDFE;color:#3C3489;font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;display:inline-block}
+.p4{background:#E1F5EE;color:#085041;font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;display:inline-block}
+.upsell-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1rem}
+.upsell-timing{font-size:11px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:.4rem}
+.upsell-title{font-size:15px;font-weight:500;margin-bottom:.35rem}
+.upsell-problem{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:.75rem}
+.value-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:.4rem}
+.value-check{color:#1D9E75;font-size:15px;flex-shrink:0;margin-top:1px}
+.value-text{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.pitch-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.85rem 1rem;margin-top:.75rem;font-size:13px;color:var(--color-text-secondary);line-height:1.65;border-left:3px solid var(--color-border-secondary)}
+.comm-tabs{display:flex;gap:8px;margin-bottom:1.25rem}
+.comm-tab{font-size:13px;padding:5px 12px;border-radius:999px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.comm-tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.comm-content{display:none}
+.comm-content.active{display:block}
+.email-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem}
+.email-meta{font-size:12px;color:var(--color-text-tertiary);margin-bottom:.75rem;line-height:1.8}
+.email-meta strong{color:var(--color-text-secondary);font-weight:500}
+.email-body{font-size:13px;color:var(--color-text-secondary);line-height:1.75}
+.email-body p{margin-bottom:.75rem}
+.email-body p:last-child{margin-bottom:0}
+.sprint-item{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.75rem}
+.sprint-num{width:22px;height:22px;border-radius:50%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--color-text-secondary);flex-shrink:0;margin-top:1px}
+.sprint-text{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.sprint-label{font-weight:500;color:var(--color-text-primary)}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.25rem}
+.metric-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.85rem 1rem}
+.metric-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px}
+.metric-val{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.metric-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1.75rem 0}
+</style>
+
+<h2 class="sr-only">After-Sale and Customer Success Assessment — Hadi Saab for Azkatech, Solar Installation Odoo v15</h2>
+
+<div class="report">
+  <div class="cover">
+    <div class="eyebrow">Assessment submission — Azkatech ERP Solutions</div>
+    <h1>Solar Installation Odoo v15<br>Implementation & Customer Success Plan</h1>
+    <div class="sub">A structured framework for turning a post-go-live adoption crisis into a stable, expanding client account.</div>
+    <div class="meta-row">
+      <div class="meta-pill"><i class="ti ti-user" aria-hidden="true"></i> Hadi Saab</div>
+      <div class="meta-pill"><i class="ti ti-briefcase" aria-hidden="true"></i> After-Sale / CS Manager</div>
+      <div class="meta-pill"><i class="ti ti-calendar" aria-hidden="true"></i> June 2026</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn active" onclick="showSection('p1')">1 · Root causes</button>
+    <button class="nav-btn" onclick="showSection('p2')">2 · Adoption plan</button>
+    <button class="nav-btn" onclick="showSection('p3')">3 · Upsell strategy</button>
+    <button class="nav-btn" onclick="showSection('p4')">4 · Communication</button>
+  </div>
+
+  <div id="p1" class="section active">
+    <div class="part-label">Part 1</div>
+    <div class="part-title">Problem understanding & root-cause thinking</div>
+    <div class="part-intro">A 40% surge in support tickets, abandoned CRM, and Excel workarounds are not isolated software bugs. They are lagging indicators of a breakdown across four dimensions: process, people, system, and governance.</div>
+
+    <div class="card">
+      <div class="tag tag-process">Process</div>
+      <h3>Over-engineered CRM workflows</h3>
+      <p>Sales reps are forced to enter detailed technical site data (roof pitch, panel specs, shading metrics) at the very first lead stage. The friction is so high they bypass the CRM entirely — tracking deals in notebooks and phone notes — which starves leadership of pipeline visibility.</p>
+      <div class="impact-row"><div class="impact-dot"></div><div class="impact-text"><strong>Fix:</strong> Strip non-essential fields from early CRM stages. Move technical surveys to the Quotation/Project phase only.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="tag tag-people">People</div>
+      <h3>Generic, feature-based training</h3>
+      <p>Teams were trained on what Odoo's buttons do — not how to execute their actual solar workflows. Accountants don't know how to process progressive milestone billing. Warehouse staff can't manage inverter backorders. This knowledge gap drives the helpdesk spike.</p>
+      <div class="impact-row"><div class="impact-dot"></div><div class="impact-text"><strong>Fix:</strong> Replace generic training with role-specific, 30-minute "Day-in-the-Life" clinics built around solar workflows.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="tag tag-system">System</div>
+      <h3>Missing financial layouts & page-load lag</h3>
+      <p>The accounting team retreated to Excel because the CFO's required milestone billing reports don't exist natively. Separately, severe page-load delays in Inventory and Project modules (likely unindexed custom fields or unstored compute dependencies) give users the impression Odoo is broken.</p>
+      <div class="impact-row"><div class="impact-dot"></div><div class="impact-text"><strong>Fix:</strong> Build the CFO's exact pivot views inside Odoo. Run server log audits and optimize database indexing.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="tag tag-gov">Governance</div>
+      <h3>No tiered support & unmanaged scope creep</h3>
+      <p>Every forgotten password gets logged as a high-priority ticket directly to Azkatech — there's no internal first-line filter. Meanwhile, the client treats every post-go-live change request as already paid for, with no Change Control Board to link requests to financial impact.</p>
+      <div class="impact-row"><div class="impact-dot"></div><div class="impact-text"><strong>Fix:</strong> Appoint Super-Users as Tier-1 triage. Establish a joint Steering Committee with a formal change control process.</div></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-label" style="margin-bottom:.75rem">Phased intervention plan</div>
+    <div class="phase-grid">
+      <div class="phase-card">
+        <div class="phase-num">Phase 1 · Weeks 1–2</div>
+        <div class="phase-name">Stabilize</div>
+        <div class="phase-timing">CRM simplification + accounting dashboards</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Phase 2 · Weeks 3–4</div>
+        <div class="phase-name">Govern</div>
+        <div class="phase-timing">Role-based training + Super-User network</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Phase 3 · Month 2</div>
+        <div class="phase-name">Optimize</div>
+        <div class="phase-timing">Server & database performance tuning</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Phase 4 · Ongoing</div>
+        <div class="phase-name">Expand</div>
+        <div class="phase-timing">Steering committee + v18 migration roadmap</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p2" class="section">
+    <div class="part-label">Part 2</div>
+    <div class="part-title">Customer success & adoption plan</div>
+    <div class="part-intro">The goal is to move each stakeholder group from active resistance to operational dependency — through interface simplification, role-specific training, and a clear support structure.</div>
+
+    <div class="card-label" style="margin-bottom:.75rem">Stakeholder map</div>
+    <div class="stakeholder-grid">
+      <div class="sk-card">
+        <div class="sk-icon" style="background:#E6F1FB"><i class="ti ti-chart-bar" style="color:#185FA5" aria-hidden="true"></i></div>
+        <div class="sk-role">Executive sponsor</div>
+        <div class="sk-name">CEO / CFO</div>
+        <div class="sk-risk sk-risk-med">Medium risk</div>
+        <div class="sk-desc">Controls the budget. Their negative sentiment gives teams cultural cover to bypass Odoo. Win them with hard ROI data, not feature demos.</div>
+      </div>
+      <div class="sk-card">
+        <div class="sk-icon" style="background:#FAEEDA"><i class="ti ti-package" style="color:#854F0B" aria-hidden="true"></i></div>
+        <div class="sk-role">Process owner</div>
+        <div class="sk-name">Supply chain & project directors</div>
+        <div class="sk-risk sk-risk-high">High risk</div>
+        <div class="sk-desc">If they find Odoo too rigid, they'll authorize spreadsheets and whiteboards — starving accounting of real-time cost data.</div>
+      </div>
+      <div class="sk-card">
+        <div class="sk-icon" style="background:#FCEBEB"><i class="ti ti-users" style="color:#A32D2D" aria-hidden="true"></i></div>
+        <div class="sk-role">Functional users</div>
+        <div class="sk-name">Sales reps & field engineers</div>
+        <div class="sk-risk sk-risk-high">Immediate threat</div>
+        <div class="sk-desc">Their daily workarounds create data blackouts. They don't hold budget authority, but their input powers every executive report.</div>
+      </div>
+      <div class="sk-card">
+        <div class="sk-icon" style="background:#E1F5EE"><i class="ti ti-star" style="color:#0F6E56" aria-hidden="true"></i></div>
+        <div class="sk-role">Champions (target)</div>
+        <div class="sk-name">Designated super-users</div>
+        <div class="sk-risk sk-risk-low">Opportunity</div>
+        <div class="sk-desc">One per department — Sales, Inventory, Accounting. They absorb Tier-1 queries and become our strongest internal advocates.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-label" style="margin-bottom:.75rem">Support ticket prioritization</div>
+    <table class="sla-table">
+      <thead>
+        <tr><th>Priority</th><th>Trigger</th><th>Solar impact</th><th>SLA</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="p1">P1 Critical</span></td>
+          <td>Odoo instance down or fatal 500 errors</td>
+          <td>Field teams can't pull stock; sales can't quote</td>
+          <td>Response &lt;15 min · Fix &lt;2 hr</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2 Urgent</span></td>
+          <td>Core pipeline broken, no workaround</td>
+          <td>Procurement blocked on critical inverters</td>
+          <td>Response &lt;1 hr · Fix &lt;8 hr</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3 Medium</span></td>
+          <td>Feature degradation or reporting bugs</td>
+          <td>Temporary workaround exists; ops continue</td>
+          <td>Response &lt;4 hr · Fix &lt;24 hr</td>
+        </tr>
+        <tr>
+          <td><span class="p4">P4 Low</span></td>
+          <td>UI tweaks, PDF layout, how-to questions</td>
+          <td>Zero impact on sales or installation speed</td>
+          <td>Response &lt;8 hr · Fix &lt;48 hr</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <div class="card-label" style="margin-bottom:.75rem">Target adoption metrics</div>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-label">DAU/MAU ratio</div>
+        <div class="metric-val">&gt;85%</div>
+        <div class="metric-sub">consistent login target</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Quote origination in Odoo</div>
+        <div class="metric-val">100%</div>
+        <div class="metric-sub">zero bypass target</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Ticket reduction by day 60</div>
+        <div class="metric-val">–45%</div>
+        <div class="metric-sub">from current baseline</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">CSAT score</div>
+        <div class="metric-val">&gt;85%</div>
+        <div class="metric-sub">on closed tickets</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p3" class="section">
+    <div class="part-label">Part 3</div>
+    <div class="part-title">Commercial awareness & upsell thinking</div>
+    <div class="part-intro">The strategy is "Stabilize → Optimize → Transform." No paid pitches during the crisis phase. Once the client sees measurable results, expansion conversations open naturally — framed as unlocking value they've already paid for.</div>
+
+    <div class="upsell-card">
+      <div class="upsell-timing"><i class="ti ti-clock" aria-hidden="true"></i> Day 45 · Unlock, not upsell</div>
+      <div class="upsell-title">Field Service (FSM) module activation</div>
+      <div class="upsell-problem">Field engineers run on WhatsApp and paper. There's no real-time scheduling, no on-site material tracking, and no digital completion sign-off — leading to inventory "shrinkage" and manual double-entry by office staff.</div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">20% reduction in admin overhead by eliminating manual data re-entry</div></div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">15% fewer project delays through real-time GPS routing and scheduling</div></div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">$5K–$12K/year saved by forcing digital inventory validation before job completion</div></div>
+      <div class="pitch-box">"You're actually already paying for this in your existing Enterprise subscription. We'll activate and configure it in one week — zero additional software cost."</div>
+    </div>
+
+    <div class="upsell-card">
+      <div class="upsell-timing"><i class="ti ti-clock" aria-hidden="true"></i> Day 75 · After adoption hits 80%+</div>
+      <div class="upsell-title">Advanced inventory automation & barcoding</div>
+      <div class="upsell-problem">Solar components require serialized tracking (specific inverter serial numbers matched to customer warranties). Manual clipboard checks cause fulfillment delays, stock discrepancies, and expensive emergency procurement runs.</div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">99% warehouse inventory accuracy, up from an estimated 75%</div></div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">12% fewer procurement cycle losses via automated reorder rules</div></div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">8–10 hours/week saved for warehouse manager through mobile barcode scanning</div></div>
+      <div class="pitch-box">"Now that inventory moves are flowing smoothly in Odoo, the remaining bottleneck is manual input speed at the loading dock. A focused barcoding sprint will lock accuracy to 99% and eliminate stock-out delays."</div>
+    </div>
+
+    <div class="upsell-card">
+      <div class="upsell-timing"><i class="ti ti-clock" aria-hidden="true"></i> Day 90 · At the quarterly business review</div>
+      <div class="upsell-title">Strategic migration to Odoo v18</div>
+      <div class="upsell-problem">Odoo v15 is moving past standard vendor support. It lacks v18's performance architecture, native multi-company financial consolidation, and improved mobile UX — the exact things users complain about most.</div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">Up to 40% improvement in system-wide page load — resolves the core "Odoo is slow" complaint</div></div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">Eliminates legacy technical debt accumulated during the v15 customisation phase</div></div>
+      <div class="value-row"><div class="value-check"><i class="ti ti-check" aria-hidden="true"></i></div><div class="value-text">Secures the technology infrastructure for the next five years of business growth</div></div>
+      <div class="pitch-box">"Three months ago, Odoo was a cost centre. Today, tickets are down 45%, CRM adoption is universal, and project margins are visible in real time. The migration to v18 locks in these gains permanently."</div>
+    </div>
+  </div>
+
+  <div id="p4" class="section">
+    <div class="part-label">Part 4</div>
+    <div class="part-title">Structured communication</div>
+    <div class="part-intro">The same crisis requires two completely different communication styles: calm, ownership-forward language with the client, and cold metrics with hard deadlines internally.</div>
+
+    <div class="comm-tabs">
+      <button class="comm-tab active" onclick="showComm('external')">Client email</button>
+      <button class="comm-tab" onclick="showComm('internal')">Internal escalation</button>
+    </div>
+
+    <div id="external" class="comm-content active">
+      <div class="email-box">
+        <div class="email-meta">
+          <strong>To:</strong> Client leadership<br>
+          <strong>From:</strong> Hadi Saab, Customer Success — Azkatech<br>
+          <strong>Subject:</strong> Immediate action plan: optimising your Odoo v15 workflows
+        </div>
+        <div class="email-body">
+          <p>Dear [Name],</p>
+          <p>Thank you for your candid feedback on the post-go-live experience. We hear the frustrations clearly: the system feels slow, data entry is over-complicated for sales, and the accounting team has reverted to Excel to get the reports they need.</p>
+          <p>We take full ownership of these issues. Our priority is to ensure Odoo works for your business now, not down the road. We're launching a focused 2-week stabilisation sprint to address all three friction points directly:</p>
+          <div class="sprint-item"><div class="sprint-num">1</div><div class="sprint-text"><span class="sprint-label">System speed (Days 1–3):</span> Our technical team begins auditing server logs and database indexes today to eliminate loading lag and restore fast page-load times.</div></div>
+          <div class="sprint-item"><div class="sprint-num">2</div><div class="sprint-text"><span class="sprint-label">CRM simplification (Days 4–7):</span> We're removing non-essential mandatory fields so your sales team can move from lead to quote in under two minutes.</div></div>
+          <div class="sprint-item"><div class="sprint-num">3</div><div class="sprint-text"><span class="sprint-label">Excel eliminated (Days 8–12):</span> We'll configure Odoo's native pivot dashboards to match your exact reporting layout — giving the CFO live project margins with one click.</div></div>
+          <p>I'll be calling your office immediately after this email to align on next steps and kick off the sprint today.</p>
+          <p>Best regards,<br>Hadi Saab<br>Senior Customer Success Manager, Azkatech ERP Solutions</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="internal" class="comm-content">
+      <div class="email-box">
+        <div class="email-meta">
+          <strong>To:</strong> Project Manager<br>
+          <strong>CC:</strong> Director of Engineering / Lead Odoo Developer<br>
+          <strong>From:</strong> After-Sale & Customer Success<br>
+          <strong>Subject:</strong> <span style="color:#A32D2D;font-weight:500">CRITICAL ACCOUNT RISK</span> — 2-week stabilisation sprint, Solar Installation
+        </div>
+        <div class="email-body">
+          <p><strong>Situation:</strong> This account is at high churn risk. Tickets are up 40% post-go-live. Sales is bypassing CRM. Accounting is entirely on Excel. Executive management has frozen invoice payments and is threatening cancellation.</p>
+          <p><strong>Financial exposure:</strong> Loss of this account eliminates a high-margin maintenance contract and kills our Q3 pipeline for their planned v18 migration.</p>
+          <p><strong>Technical bottlenecks identified:</strong></p>
+          <div class="sprint-item"><div class="sprint-num">1</div><div class="sprint-text">Severe page-load latency in Inventory and Project modules — suspected unindexed custom fields or unstored compute field dependencies.</div></div>
+          <div class="sprint-item"><div class="sprint-num">2</div><div class="sprint-text">Excessive mandatory field constraints blocking early-stage CRM pipeline entry.</div></div>
+          <div class="sprint-item"><div class="sprint-num">3</div><div class="sprint-text">Missing native Odoo Accounting pivot views for progressive project margin tracking.</div></div>
+          <p><strong>Resource ask:</strong></p>
+          <div class="sprint-item"><div class="sprint-num">A</div><div class="sprint-text"><span class="sprint-label">Senior DBA / Developer — 8 hours:</span> Audit PG_Stat_Statements logs, optimise table indexing, fix backend compute field dependencies.</div></div>
+          <div class="sprint-item"><div class="sprint-num">B</div><div class="sprint-text"><span class="sprint-label">Functional Specialist — 12 hours:</span> Remove CRM field constraints and build the CFO's accounting pivot dashboards.</div></div>
+          <p><strong>Hard deadlines:</strong><br>
+          Thu 18 Jun — DB optimisation deployed, page-load normalised.<br>
+          Mon 22 Jun — CRM + dashboards ready in staging for sign-off.<br>
+          Wed 24 Jun — Full deployment to production.</p>
+          <p>Please confirm resource availability by close of business today.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx={'p1':0,'p2':1,'p3':2,'p4':3};
+  document.querySelectorAll('.nav-btn')[idx[id]].classList.add('active');
+}
+function showComm(id){
+  document.querySelectorAll('.comm-content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.comm-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
